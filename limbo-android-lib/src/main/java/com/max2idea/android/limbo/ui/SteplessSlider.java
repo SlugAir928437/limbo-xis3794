@@ -73,6 +73,7 @@ public class SteplessSlider extends View {
         thumbRadius = 11f * density;
 
         trackPaint.setColor(0x1AFFFFFF);
+        activePaint.setColor(0xFF8FA8FF);
         trackPaint.setStyle(Paint.Style.FILL);
 
         thumbPaint.setStyle(Paint.Style.FILL);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
@@ -22,12 +21,11 @@ import android.view.View;
  */
 public class AuroraBackgroundView extends View {
 
-    private static final float FRAME_DELAY_MS = 70f;
+    private static final float FRAME_DELAY_MS = 90f;
 
     private final Paint basePaint = new Paint();
     private final Paint blobPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint vignettePaint = new Paint();
-    private final Matrix shaderMatrix = new Matrix();
 
     private RadialGradient indigo;
     private RadialGradient violet;
@@ -171,12 +169,13 @@ public class AuroraBackgroundView extends View {
         if (shader == null) {
             return;
         }
-        shaderMatrix.reset();
-        shaderMatrix.setScale(r, r);
-        shaderMatrix.postTranslate(cx, cy);
-        shader.setLocalMatrix(shaderMatrix);
+        // Shaders stay static; the canvas transform positions/scales the unit blob.
         blobPaint.setShader(shader);
-        canvas.drawRect(cx - r, cy - r, cx + r, cy + r, blobPaint);
+        final int save = canvas.save();
+        canvas.translate(cx, cy);
+        canvas.scale(r, r);
+        canvas.drawRect(-1f, -1f, 1f, 1f, blobPaint);
+        canvas.restoreToCount(save);
         blobPaint.setShader(null);
     }
 

@@ -44,6 +44,9 @@ public class GlassBlurView extends View {
     private int bitmapWidth;
     private int bitmapHeight;
     private float cornerRadius = -1f;
+    private float clipRadius = -1f;
+    private int clipWidth = -1;
+    private int clipHeight = -1;
     private long lastCapture;
     private boolean capturing;
     private boolean pendingRefresh;
@@ -86,6 +89,7 @@ public class GlassBlurView extends View {
     /** Use a fixed corner radius (dp). By default the view is drawn as a capsule. */
     public void setCornerRadiusDp(float radiusDp) {
         this.cornerRadius = dp(radiusDp);
+        clipRadius = -1f;
         invalidate();
     }
 
@@ -215,12 +219,10 @@ public class GlassBlurView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         rect.set(0f, 0f, w, h);
+        clipWidth = -1;
         glow = new LinearGradient(0f, 0f, w * 0.35f, h,
                 new int[]{0x1FFFFFFF, 0x08FFFFFF, 0x00000000},
                 new float[]{0f, 0.55f, 1f}, Shader.TileMode.CLAMP);
-        clipPath.reset();
-        clipPath.addRoundRect(rect, cornerRadius >= 0 ? cornerRadius : h / 2f,
-                cornerRadius >= 0 ? cornerRadius : h / 2f, Path.Direction.CW);
         refresh();
     }
 
@@ -233,10 +235,13 @@ public class GlassBlurView extends View {
         }
 
         final float radius = cornerRadius >= 0 ? cornerRadius : h / 2f;
-        if (rect.width() != w || rect.height() != h) {
+        if (clipWidth != w || clipHeight != h || clipRadius != radius) {
             rect.set(0f, 0f, w, h);
             clipPath.reset();
             clipPath.addRoundRect(rect, radius, radius, Path.Direction.CW);
+            clipWidth = w;
+            clipHeight = h;
+            clipRadius = radius;
         }
 
         canvas.save();

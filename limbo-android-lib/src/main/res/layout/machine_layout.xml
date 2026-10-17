@@ -47,17 +47,31 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/machineval"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/bg_chip_neutral"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:singleLine="true"
-        android:textColor="@color/limbo_text"
-        android:textSize="15sp" />
+        android:layout_marginTop="14dp">
+
+        <Spinner
+            android:id="@+id/machineval"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_chip_neutral"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="42dp"
+            android:singleLine="true"
+            android:textColor="@color/limbo_text"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginRight="14dp"
+            android:contentDescription="@string/machineProfile"
+            android:src="@drawable/ic_chevron_down"
+            android:tint="@color/limbo_text_muted" />
+    </FrameLayout>
 
 </LinearLayout>
