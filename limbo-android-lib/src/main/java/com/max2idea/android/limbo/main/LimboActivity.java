@@ -1898,6 +1898,8 @@ public class LimboActivity extends AppCompatActivity
             if (mNavRoots[i] != null) {
                 mNavRoots[i].setOnClickListener(new OnClickListener() {
                     public void onClick(View view) {
+                        view.performHapticFeedback(
+                                android.view.HapticFeedbackConstants.VIRTUAL_KEY);
                         selectTab(index);
                     }
                 });

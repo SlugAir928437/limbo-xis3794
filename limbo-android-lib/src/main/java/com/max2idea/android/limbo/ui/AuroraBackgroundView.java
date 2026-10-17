@@ -126,6 +126,20 @@ public class AuroraBackgroundView extends View {
     }
 
     @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == VISIBLE && isAttachedToWindow()) {
+            if (!running) {
+                running = true;
+                post(ticker);
+            }
+        } else {
+            running = false;
+            removeCallbacks(ticker);
+        }
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         final int w = getWidth();
         final int h = getHeight();
