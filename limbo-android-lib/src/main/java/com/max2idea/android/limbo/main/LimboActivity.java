@@ -1942,9 +1942,7 @@ public class LimboActivity extends AppCompatActivity
             } else {
                 icon.setVisibility(View.GONE);
                 letter.setVisibility(View.VISIBLE);
-                String first = machine.getName() == null || machine.getName().isEmpty()
-                        ? "L" : machine.getName().substring(0, 1).toUpperCase();
-                letter.setText(first);
+                letter.setText(UiUtils.firstLetter(machine.getName()));
             }
         }
     }

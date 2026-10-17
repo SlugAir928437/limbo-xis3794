@@ -127,9 +127,7 @@ public class MachineGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else {
             h.icon.setVisibility(View.GONE);
             h.letter.setVisibility(View.VISIBLE);
-            String letter = item.name == null || item.name.isEmpty()
-                    ? "L" : item.name.substring(0, 1).toUpperCase();
-            h.letter.setText(letter);
+            h.letter.setText(UiUtils.firstLetter(item.name));
         }
 
         h.root.setOnClickListener(new View.OnClickListener() {

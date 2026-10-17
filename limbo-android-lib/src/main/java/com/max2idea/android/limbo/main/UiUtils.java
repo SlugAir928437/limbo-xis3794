@@ -119,6 +119,18 @@ public final class UiUtils {
         }
     }
 
+    /** First character of a machine name, safe for surrogate pairs (emoji). */
+    public static String firstLetter(String name) {
+        if (name == null || name.isEmpty()) {
+            return "L";
+        }
+        try {
+            return new String(Character.toChars(name.codePointAt(0))).toUpperCase();
+        } catch (Exception e) {
+            return "L";
+        }
+    }
+
     public static int screenWidth(Context context) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return metrics.widthPixels;

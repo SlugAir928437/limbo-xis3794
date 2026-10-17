@@ -631,6 +631,15 @@ public class HomeController implements
     public void onEvent(Machine machine, MachineController.Event event, Object o) {
         if (event == MachineController.Event.MachineCreated) {
             delayedRefresh(300);
+            final String created = o instanceof String ? (String) o : null;
+            if (created != null) {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        openConfig(created);
+                    }
+                }, 550);
+            }
         } else if (event == MachineController.Event.MachineCreateFailed) {
             final String message = o instanceof Integer
                     ? activity.getString((Integer) o) : String.valueOf(o);
