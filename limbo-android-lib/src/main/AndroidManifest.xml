@@ -29,6 +29,7 @@
 
         <activity
             android:name="com.max2idea.android.limbo.main.LimboFileManager"
+            android:theme="@style/LimboMainTheme"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize"
             android:label="File Manager" />
         <activity
@@ -39,6 +40,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="com.max2idea.android.limbo.main.LimboSettingsManager"
+            android:theme="@style/LimboMainTheme"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize"
             android:label="Settings" />
         <service

@@ -196,6 +196,7 @@ public class LimboApplication extends Application {
         MachineOpenHelper.initialize(this);
         FavOpenHelper.initialize(this);
         setupFolders();
+        UiPrefs.applyTheme(this);
     }
 
     /**

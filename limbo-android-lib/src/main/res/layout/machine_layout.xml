@@ -7,7 +7,7 @@
     android:layout_marginBottom="12dp"
     android:background="@drawable/bg_glass_card"
     android:orientation="vertical"
-    android:padding="18dp"
+    android:padding="16dp"
     tools:showIn="@layout/limbo_main">
 
     <LinearLayout
@@ -16,13 +16,28 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:background="@drawable/bg_icon_chip"
-            android:padding="9dp"
-            android:src="@drawable/limbo"
-            android:contentDescription="@string/app_short_name" />
+        <FrameLayout
+            android:layout_width="52dp"
+            android:layout_height="52dp">
+
+            <TextView
+                android:id="@+id/machine_letter"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_icon_chip"
+                android:gravity="center"
+                android:textColor="@color/limbo_accent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/machine_icon"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_icon_chip"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,14 +47,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/machineStr"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@string/app_short_name"
                 style="@style/Limbo.Text.Title" />
 
             <TextView
-                android:id="@+id/machineStr"
-                android:layout_width="wrap_content"
+                android:id="@+id/machine_meta"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/machineProfile"
@@ -47,31 +65,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginTop="14dp">
-
-        <Spinner
-            android:id="@+id/machineval"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_chip_neutral"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="42dp"
-            android:singleLine="true"
-            android:textColor="@color/limbo_text"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginRight="14dp"
-            android:contentDescription="@string/machineProfile"
-            android:src="@drawable/ic_chevron_down"
-            android:tint="@color/limbo_text_muted" />
-    </FrameLayout>
+    <!-- data holder for the machine list, kept invisible -->
+    <Spinner
+        android:id="@+id/machineval"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible" />
 
 </LinearLayout>

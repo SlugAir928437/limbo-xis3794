@@ -4,29 +4,45 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <!-- ===== Limbo Aurora Glass palette ===== -->
-    <color name="limbo_bg">#07080E</color>
-    <color name="limbo_bg_elev">#0C0E17</color>
-    <color name="limbo_aurora_indigo">#4C6BFF</color>
-    <color name="limbo_aurora_violet">#B266FF</color>
-    <color name="limbo_aurora_cyan">#3AD9FF</color>
+    <!-- ===== Limbo UI palette (light) ===== -->
+    <color name="limbo_bg">#EEF1F6</color>
+    <color name="limbo_bg_top">#F8FAFD</color>
+    <color name="limbo_bg_elev">#FFFFFF</color>
 
-    <color name="limbo_accent">#7C9BFF</color>
-    <color name="limbo_accent_2">#C08CFF</color>
-    <color name="limbo_cyan">#59D7FF</color>
+    <color name="limbo_surface">#FFFFFF</color>
+    <color name="limbo_surface_alt">#F4F6FA</color>
+    <color name="limbo_glass">#E6FFFFFF</color>
+    <color name="limbo_glass_tint">#99FFFFFF</color>
+    <color name="limbo_nav_bg">#26FFFFFF</color>
 
-    <color name="limbo_text">#F3F5FF</color>
-    <color name="limbo_text_dim">#ACB4D0</color>
-    <color name="limbo_text_muted">#707894</color>
+    <color name="limbo_stroke">#E2E7EF</color>
+    <color name="limbo_stroke_strong">#D5DCE6</color>
 
-    <color name="limbo_success">#43E3A0</color>
-    <color name="limbo_warning">#FFC470</color>
-    <color name="limbo_danger">#FF7285</color>
+    <color name="limbo_text">#171A21</color>
+    <color name="limbo_text_dim">#5D6573</color>
+    <color name="limbo_text_muted">#8B93A1</color>
 
-    <color name="glass_fill">#12FFFFFF</color>
-    <color name="glass_fill_strong">#1CFFFFFF</color>
-    <color name="glass_stroke">#24FFFFFF</color>
-    <color name="glass_stroke_strong">#38FFFFFF</color>
+    <color name="limbo_accent">#4A6CF7</color>
+    <color name="limbo_accent_2">#4A6CF7</color>
+    <color name="limbo_accent_soft">#E9EEFC</color>
+    <color name="limbo_on_accent">#FFFFFF</color>
+    <color name="limbo_cyan">#4A6CF7</color>
 
-    <color name="limbo_ripple">#1FFFFFFF</color>
+    <color name="limbo_success">#2E9E6B</color>
+    <color name="limbo_warning">#B8801F</color>
+    <color name="limbo_danger">#C94F4F</color>
+
+    <color name="limbo_scrim">#B8EEF1F6</color>
+    <color name="limbo_shadow">#14000000</color>
+    <color name="limbo_ripple">#1A0B1220</color>
+
+    <!-- legacy aliases still referenced by old resources -->
+    <color name="glass_fill">@color/limbo_surface_alt</color>
+    <color name="glass_fill_strong">@color/limbo_surface</color>
+    <color name="glass_stroke">@color/limbo_stroke</color>
+    <color name="glass_stroke_strong">@color/limbo_stroke_strong</color>
+    <color name="limbo_aurora_indigo">@color/limbo_accent</color>
+    <color name="limbo_aurora_violet">@color/limbo_accent</color>
+    <color name="limbo_aurora_cyan">@color/limbo_accent</color>
+    <color name="limbo_slider_track">#140B1220</color>
 </resources>

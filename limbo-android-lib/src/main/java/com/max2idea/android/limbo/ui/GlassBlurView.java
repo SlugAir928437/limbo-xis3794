@@ -13,6 +13,10 @@ import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
+import com.limbo.emu.lib.R;
+
 /**
  * A real frosted-glass surface: captures the content that scrolls underneath it,
  * downsamples + blurs it and paints the result through a rounded clip, finished
@@ -67,13 +71,14 @@ public class GlassBlurView extends View {
     }
 
     private void init() {
-        tintPaint.setColor(0x1AFFFFFF);
+        tintPaint.setColor(ContextCompat.getColor(getContext(), R.color.limbo_glass_tint));
         rimPaint.setStyle(Paint.Style.STROKE);
         rimPaint.setStrokeWidth(dp(1f));
-        rimPaint.setColor(0x33FFFFFF);
+        rimPaint.setColor(ContextCompat.getColor(getContext(), R.color.limbo_stroke));
         innerRimPaint.setStyle(Paint.Style.STROKE);
         innerRimPaint.setStrokeWidth(dp(1f));
-        innerRimPaint.setColor(0x12000000);
+        innerRimPaint.setColor(ContextCompat.getColor(getContext(), R.color.limbo_shadow));
+        bitmapPaint.setAlpha(125);
     }
 
     private float dp(float value) {

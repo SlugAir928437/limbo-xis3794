@@ -121,7 +121,8 @@ public class LimboSDLActivity extends SDLActivity
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayShowCustomEnabled(true); // enable overriding the
             ab.setDisplayShowTitleEnabled(true); // disable the default title
-            ab.setTitle(R.string.app_name);
+            String machineName = MachineController.getInstance().getMachineName();
+            ab.setTitle(machineName != null ? machineName : getString(R.string.app_name));
             if (!LimboSettingsManager.getAlwaysShowMenuToolbar(this)) {
                 ab.hide();
             }
@@ -201,6 +202,10 @@ public class LimboSDLActivity extends SDLActivity
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
         if (item.getItemId() == R.id.itemDrives) {
             // Show up removable devices dialog
             if (MachineController.getInstance().getMachine().hasRemovableDevices()) {
@@ -542,6 +547,23 @@ public class LimboSDLActivity extends SDLActivity
 
         mGap = (View) findViewById(R.id.gap);
         updateLayout(getResources().getConfiguration().orientation);
+
+        View back = findViewById(R.id.sdl_back);
+        if (back != null) {
+            back.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+        View menu = findViewById(R.id.sdl_menu);
+        if (menu != null) {
+            menu.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    openOptionsMenu();
+                }
+            });
+        }
 
     }
 

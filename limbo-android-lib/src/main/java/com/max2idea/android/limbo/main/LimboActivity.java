@@ -24,7 +24,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -81,6 +83,7 @@ import com.max2idea.android.limbo.machine.MachineImporter;
 import com.max2idea.android.limbo.machine.MachineProperty;
 import com.max2idea.android.limbo.network.NetworkUtils;
 import com.max2idea.android.limbo.toast.ToastUtils;
+import com.max2idea.android.limbo.ui.AppBackgroundView;
 import com.max2idea.android.limbo.ui.GlassBlurView;
 import com.max2idea.android.limbo.ui.SpinnerAdapter;
 import com.max2idea.android.limbo.ui.SteplessSlider;
@@ -201,7 +204,13 @@ public class LimboActivity extends AppCompatActivity
     private TextView mAudioSectionSummary;
     private TextView mNetworkSectionSummary;
     private TextView mBootSectionSummary;
-    // Aurora Glass UI
+    // Home / config modes
+    public static final String EXTRA_MACHINE = "limbo_machine";
+    private HomeController homeController;
+    private boolean homeMode;
+    private String pendingMachineName;
+
+    // Glass UI
     private GlassBlurView mToolbarGlass;
     private GlassBlurView mNavGlass;
     private LinearLayout mTabOverview, mTabHardware, mTabStorage, mTabDisplay, mTabNetwork;
@@ -1008,6 +1017,19 @@ public class LimboActivity extends AppCompatActivity
         setupAppEnvironment();
         clearNotifications();
         setupStrictMode();
+
+        final String machineExtra = getIntent() != null
+                ? getIntent().getStringExtra(EXTRA_MACHINE) : null;
+        if (machineExtra == null) {
+            homeMode = true;
+            setContentView(R.layout.activity_home);
+            setupController();
+            setupHome();
+            checkFirstLaunch();
+            return;
+        }
+        pendingMachineName = machineExtra;
+
         setContentView(R.layout.limbo_main);
         setupWidgets();
         setupController();
@@ -1338,7 +1360,21 @@ public class LimboActivity extends AppCompatActivity
             ab.setDisplayHomeAsUpEnabled(false);
             ab.setDisplayShowCustomEnabled(false);
             ab.setDisplayShowTitleEnabled(true);
-            ab.setTitle(R.string.app_short_name);
+            ab.setTitle(pendingMachineName != null ? getString(R.string.config_title) : getString(R.string.app_short_name));
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            if (toolbar != null && pendingMachineName != null) {
+                toolbar.setNavigationIcon(R.drawable.ic_back);
+                if (toolbar.getNavigationIcon() != null) {
+                    toolbar.getNavigationIcon().setTint(
+                            ContextCompat.getColor(this, R.color.limbo_text));
+                }
+                toolbar.setNavigationContentDescription(R.string.back);
+                toolbar.setNavigationOnClickListener(new OnClickListener() {
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
+            }
         }
     }
 
@@ -1857,64 +1893,60 @@ public class LimboActivity extends AppCompatActivity
     // Aurora Glass UI
     // ============================================================
 
+    private void setupHome() {
+        homeController = new HomeController(this);
+        homeController.setup();
+        MachineController.getInstance().addOnStatusChangeListener(homeController);
+        MachineController.getInstance().addOnEventListener(homeController);
+    }
+
     private void setupModernUI() {
-        mToolbarGlass = findViewById(R.id.toolbar_glass);
-        mNavGlass = findViewById(R.id.bottom_nav_glass);
-        if (mToolbarGlass != null) {
-            mToolbarGlass.setCornerRadiusDp(20f);
-            mToolbarGlass.setTarget(mScrollView);
+        View background = findViewById(R.id.config_background);
+        if (background instanceof AppBackgroundView) {
+            String wallpaper = UiPrefs.getWallpaper(this);
+            ((AppBackgroundView) background).setWallpaperUri(
+                    wallpaper == null ? null : Uri.parse(wallpaper));
         }
-        if (mNavGlass != null) {
-            mNavGlass.setCornerRadiusDp(34f);
-            mNavGlass.setTarget(mScrollView);
-        }
-
-        mTabOverview = findViewById(R.id.tab_overview);
-        mTabHardware = findViewById(R.id.tab_hardware);
-        mTabStorage = findViewById(R.id.tab_storage);
-        mTabDisplay = findViewById(R.id.tab_display);
-        mTabNetwork = findViewById(R.id.tab_network);
-
-        mNavRoots[0] = findViewById(R.id.nav_overview);
-        mNavRoots[1] = findViewById(R.id.nav_hardware);
-        mNavRoots[2] = findViewById(R.id.nav_storage);
-        mNavRoots[3] = findViewById(R.id.nav_display);
-        mNavRoots[4] = findViewById(R.id.nav_network);
-
-        mNavIcons[0] = findViewById(R.id.nav_ic_overview);
-        mNavIcons[1] = findViewById(R.id.nav_ic_hardware);
-        mNavIcons[2] = findViewById(R.id.nav_ic_storage);
-        mNavIcons[3] = findViewById(R.id.nav_ic_display);
-        mNavIcons[4] = findViewById(R.id.nav_ic_network);
-
-        mNavLabels[0] = findViewById(R.id.nav_tx_overview);
-        mNavLabels[1] = findViewById(R.id.nav_tx_hardware);
-        mNavLabels[2] = findViewById(R.id.nav_tx_storage);
-        mNavLabels[3] = findViewById(R.id.nav_tx_display);
-        mNavLabels[4] = findViewById(R.id.nav_tx_network);
-
-        for (int i = 0; i < mNavRoots.length; i++) {
-            final int index = i;
-            if (mNavRoots[i] != null) {
-                mNavRoots[i].setOnClickListener(new OnClickListener() {
-                    public void onClick(View view) {
-                        view.performHapticFeedback(
-                                android.view.HapticFeedbackConstants.VIRTUAL_KEY);
-                        selectTab(index);
-                    }
-                });
-            }
-        }
-
         mStatusPill = findViewById(R.id.status_pill);
         mStatusDetail = findViewById(R.id.status_detail);
-
         setupSteplessSliders();
-        selectTab(0);
         applyStatusVisuals(MachineController.getInstance().getCurrStatus());
+        updateMachineHeader();
+    }
 
-        refreshGlassLater(260);
-        refreshGlassLater(1400);
+    private void updateMachineHeader() {
+        final Machine machine = getMachine();
+        if (machine == null) {
+            return;
+        }
+        TextView name = findViewById(R.id.machineStr);
+        TextView meta = findViewById(R.id.machine_meta);
+        ImageView icon = findViewById(R.id.machine_icon);
+        TextView letter = findViewById(R.id.machine_letter);
+        if (name != null) {
+            name.setText(machine.getName());
+        }
+        if (meta != null) {
+            meta.setText(getString(R.string.machine_meta,
+                    UiUtils.formatMemory(machine.getMemory()), machine.getCpuNum()));
+        }
+        String iconUri = UiPrefs.getMachineIcon(this, machine.getName());
+        Bitmap bitmap = iconUri == null ? null
+                : UiUtils.loadSampled(this, Uri.parse(iconUri), 160);
+        if (icon != null && letter != null) {
+            icon.setClipToOutline(true);
+            if (bitmap != null) {
+                icon.setImageBitmap(bitmap);
+                icon.setVisibility(View.VISIBLE);
+                letter.setVisibility(View.GONE);
+            } else {
+                icon.setVisibility(View.GONE);
+                letter.setVisibility(View.VISIBLE);
+                String first = machine.getName() == null || machine.getName().isEmpty()
+                        ? "L" : machine.getName().substring(0, 1).toUpperCase();
+                letter.setText(first);
+            }
+        }
     }
 
     private void refreshGlassLater(long delay) {
@@ -2495,6 +2527,7 @@ public class LimboActivity extends AppCompatActivity
         setUserPressed(true);
         machineLoaded = false;
         syncSlidersFromMachine();
+        updateMachineHeader();
         mMachine.setEnabled(!MachineController.getInstance().isRunning());
     }
 
@@ -2727,7 +2760,11 @@ public class LimboActivity extends AppCompatActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(true);
+            if (homeMode) {
+                moveTaskToBack(true);
+            } else {
+                finish();
+            }
             return true; // return
         }
 
@@ -2737,6 +2774,16 @@ public class LimboActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (homeMode) {
+            if (resultCode == Config.SDL_QUIT_RESULT_CODE
+                    && MachineController.getInstance().isRunning()) {
+                notifyAction(MachineAction.STOP_VM, null);
+            }
+            if (homeController != null) {
+                homeController.onActivityResult(requestCode, resultCode, data);
+            }
+            return;
+        }
 
         if (resultCode == Config.SDL_QUIT_RESULT_CODE) {
             if (getParent() != null) {
@@ -2864,6 +2911,15 @@ public class LimboActivity extends AppCompatActivity
 
     @Override
     public void onDestroy() {
+        if (homeMode) {
+            if (homeController != null) {
+                homeController.onDestroy();
+                homeController = null;
+            }
+            setViewListener(null);
+            super.onDestroy();
+            return;
+        }
         savePendingEditText();
         MachineController.getInstance().removeOnStatusChangeListener(this);
         getMachine().deleteObserver(LimboActivity.this);
@@ -2991,6 +3047,8 @@ private void populateFirmware() {
                         mMachine.invalidate();
                         if (machineValue != null)
                             SpinnerAdapter.setDiskAdapterValue(mMachine, machineValue);
+                        if (pendingMachineName != null)
+                            SpinnerAdapter.setDiskAdapterValue(mMachine, pendingMachineName);
                     }
                 });
             }
@@ -3077,24 +3135,24 @@ private void populateFirmware() {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        menu.add(0, HELP, 0, R.string.help).setIcon(R.drawable.help);
-        menu.add(0, INSTALL, 0, R.string.InstallRoms).setIcon(R.drawable.install);
+        menu.add(0, HELP, 0, R.string.help);
+        menu.add(0, INSTALL, 0, R.string.InstallRoms);
         if(!MachineController.getInstance().isRunning()) {
-            menu.add(0, CREATE, 0, R.string.CreateMachine).setIcon(R.drawable.machinetype);
-            menu.add(0, DELETE, 0, R.string.DeleteMachine).setIcon(R.drawable.delete);
+            menu.add(0, CREATE, 0, R.string.CreateMachine);
+            menu.add(0, DELETE, 0, R.string.DeleteMachine);
             if (getMachine() != null && getMachine().getPaused() == 1)
-                menu.add(0, DISCARD_VM_STATE, 0, R.string.DiscardSavedState).setIcon(R.drawable.close);
-            menu.add(0, EXPORT, 0, R.string.ExportMachines).setIcon(R.drawable.exportvms);
-            menu.add(0, IMPORT, 0, R.string.ImportMachines).setIcon(R.drawable.importvms);
+                menu.add(0, DISCARD_VM_STATE, 0, R.string.DiscardSavedState);
+            menu.add(0, EXPORT, 0, R.string.ExportMachines);
+            menu.add(0, IMPORT, 0, R.string.ImportMachines);
         }
-        menu.add(0, IMPORT_BIOS_FILE, 0, R.string.ImportBIOSFile).setIcon(R.drawable.importvms);
-        menu.add(0, SETTINGS, 0, R.string.Settings).setIcon(R.drawable.settings);
-        menu.add(0, TOOLS, 0, R.string.advancedTools).setIcon(R.drawable.advanced);
-        menu.add(0, VIEWLOG, 0, R.string.ViewLog).setIcon(android.R.drawable.ic_menu_view);
-        menu.add(0, HELP, 0, R.string.help).setIcon(R.drawable.help);
-        menu.add(0, CHANGELOG, 0, R.string.Changelog).setIcon(android.R.drawable.ic_menu_help);
-        menu.add(0, LICENSE, 0, R.string.License).setIcon(android.R.drawable.ic_menu_help);
-        menu.add(0, QUIT, 0, R.string.Exit).setIcon(android.R.drawable.ic_lock_power_off);
+        menu.add(0, IMPORT_BIOS_FILE, 0, R.string.ImportBIOSFile);
+        menu.add(0, SETTINGS, 0, R.string.Settings);
+        menu.add(0, TOOLS, 0, R.string.advancedTools);
+        menu.add(0, VIEWLOG, 0, R.string.ViewLog);
+        menu.add(0, HELP, 0, R.string.help);
+        menu.add(0, CHANGELOG, 0, R.string.Changelog);
+        menu.add(0, LICENSE, 0, R.string.License);
+        menu.add(0, QUIT, 0, R.string.Exit);
 
         // Everything lives in the overflow so the floating glass toolbar stays clean.
         for (int i = 0; i < menu.size(); i++) {
@@ -3188,6 +3246,12 @@ private void populateFirmware() {
 
     public void onResume() {
         super.onResume();
+        if (homeMode) {
+            if (homeController != null) {
+                homeController.onResume();
+            }
+            return;
+        }
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {

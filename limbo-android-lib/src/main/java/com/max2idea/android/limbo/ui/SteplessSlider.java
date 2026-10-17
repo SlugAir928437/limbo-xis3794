@@ -15,6 +15,10 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import androidx.core.content.ContextCompat;
+
+import com.limbo.emu.lib.R;
+
 /**
  * A continuous (stepless) slider with a glassy gradient track and a spring-ish
  * thumb. Values are snapped to {@code step} so the host can map progress to
@@ -51,6 +55,8 @@ public class SteplessSlider extends View {
     private boolean dragging;
     private OnValueChangedListener listener;
     private int lastHapticValue = Integer.MIN_VALUE;
+    private int accentColor;
+    private int surfaceColor;
 
     public SteplessSlider(Context context) {
         super(context);
@@ -72,17 +78,22 @@ public class SteplessSlider extends View {
         trackHeight = 6f * density;
         thumbRadius = 11f * density;
 
-        trackPaint.setColor(0x1AFFFFFF);
-        activePaint.setColor(0xFF8FA8FF);
+        accentColor = ContextCompat.getColor(getContext(), R.color.limbo_accent);
+        surfaceColor = ContextCompat.getColor(getContext(), R.color.limbo_surface);
+
+        trackPaint.setColor(ContextCompat.getColor(getContext(), R.color.limbo_slider_track));
+        activePaint.setColor(accentColor);
         trackPaint.setStyle(Paint.Style.FILL);
 
         thumbPaint.setStyle(Paint.Style.FILL);
+        thumbPaint.setColor(accentColor);
         thumbRingPaint.setStyle(Paint.Style.STROKE);
-        thumbRingPaint.setStrokeWidth(1.5f * density);
-        thumbRingPaint.setColor(0xE6FFFFFF);
+        thumbRingPaint.setStrokeWidth(2f * density);
+        thumbRingPaint.setColor(surfaceColor);
         thumbGlowPaint.setStyle(Paint.Style.FILL);
-        thumbGlowPaint.setColor(0x33A9BEFF);
+        thumbGlowPaint.setColor((accentColor & 0x00FFFFFF) | 0x33000000);
         thumbCorePaint.setStyle(Paint.Style.FILL);
+        thumbCorePaint.setColor(surfaceColor);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setElevation(4f * density);
@@ -155,9 +166,7 @@ public class SteplessSlider extends View {
         centerY = h / 2f;
         recalcThumbX();
         activePaint.setShader(new LinearGradient(startX, 0f, endX, 0f,
-                new int[]{0xFF8FA8FF, 0xFFB08CFF}, null, Shader.TileMode.CLAMP));
-        thumbCorePaint.setShader(null);
-        thumbCorePaint.setColor(0xFFDCE2FF);
+                new int[]{accentColor, accentColor}, null, Shader.TileMode.CLAMP));
     }
 
     private float dp(float v) {
@@ -184,10 +193,10 @@ public class SteplessSlider extends View {
         canvas.scale(thumbScale, thumbScale);
         canvas.translate(-thumbX, -centerY);
         thumbPaint.setShader(null);
-        thumbPaint.setColor(0xFF8FA8FF);
+        thumbPaint.setColor(accentColor);
         canvas.drawCircle(thumbX, centerY, thumbRadius, thumbPaint);
-        canvas.drawCircle(thumbX, centerY, thumbRadius * 0.78f, thumbCorePaint);
-        canvas.drawCircle(thumbX, centerY, thumbRadius - 0.75f, thumbRingPaint);
+        canvas.drawCircle(thumbX, centerY, thumbRadius * 0.42f, thumbCorePaint);
+        canvas.drawCircle(thumbX, centerY, thumbRadius - 1f, thumbRingPaint);
         canvas.restore();
     }
 

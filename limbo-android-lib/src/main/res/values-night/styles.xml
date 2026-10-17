@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Limbo.DialogPlatform" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
+        <item name="android:colorAccent">@color/limbo_accent</item>
+        <item name="android:textColorPrimary">@color/limbo_text</item>
+        <item name="android:textColorSecondary">@color/limbo_text_dim</item>
+    </style>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ===== Limbo UI palette (dark) ===== -->
+    <color name="limbo_bg">#0B0C0E</color>
+    <color name="limbo_bg_top">#121316</color>
+    <color name="limbo_bg_elev">#16181C</color>
+
+    <color name="limbo_surface">#16181C</color>
+    <color name="limbo_surface_alt">#1C1F24</color>
+    <color name="limbo_glass">#E60F1114</color>
+    <color name="limbo_glass_tint">#8C0F1114</color>
+    <color name="limbo_nav_bg">#26000000</color>
+
+    <color name="limbo_stroke">#262A31</color>
+    <color name="limbo_stroke_strong">#343A44</color>
+
+    <color name="limbo_text">#F2F4F8</color>
+    <color name="limbo_text_dim">#A8AFBB</color>
+    <color name="limbo_text_muted">#7A8290</color>
+
+    <color name="limbo_accent">#A8C7FA</color>
+    <color name="limbo_accent_2">#A8C7FA</color>
+    <color name="limbo_accent_soft">#1B2436</color>
+    <color name="limbo_on_accent">#0B1220</color>
+    <color name="limbo_cyan">#A8C7FA</color>
+
+    <color name="limbo_success">#55D6A0</color>
+    <color name="limbo_warning">#F2C879</color>
+    <color name="limbo_danger">#FF8A8A</color>
+
+    <color name="limbo_scrim">#B8000000</color>
+    <color name="limbo_shadow">#33000000</color>
+    <color name="limbo_ripple">#26FFFFFF</color>
+    <color name="limbo_slider_track">#1AFFFFFF</color>
+</resources>

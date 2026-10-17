@@ -372,6 +372,18 @@ public class MachineController {
         notifyEventListeners(Event.MachinesImported, machines);
     }
 
+    /** Read a stored machine configuration without switching the currently loaded machine. */
+    public Machine getMachineConfig(String name) {
+        if (name == null) {
+            return null;
+        }
+        try {
+            return machineDatabase.getMachine(name);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public ArrayList<String> getStoredMachines() {
         return machineDatabase.getMachineNames();
     }

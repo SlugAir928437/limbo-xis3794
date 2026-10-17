@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/limbo_bg">
+
+    <com.max2idea.android.limbo.ui.AppBackgroundView
+        android:id="@+id/home_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- ===== Page header ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="18dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/home_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nav_machines"
+                    style="@style/Limbo.Text.BigTitle" />
+
+                <TextView
+                    android:id="@+id/home_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/home_machines_sub"
+                    style="@style/Limbo.Text.Summary" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/home_add"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_icon_chip"
+                android:contentDescription="@string/new_machine"
+                android:padding="11dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_plus"
+                android:tint="@color/limbo_accent" />
+        </LinearLayout>
+
+        <!-- ===== Pages ===== -->
+        <FrameLayout
+            android:id="@+id/home_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/machine_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingLeft="14dp"
+                android:paddingTop="6dp"
+                android:paddingRight="14dp"
+                android:paddingBottom="104dp"
+                android:scrollbars="none" />
+
+            <!-- Screen page -->
+            <ScrollView
+                android:id="@+id/screen_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:scrollbars="none"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="104dp">
+
+                    <LinearLayout
+                        style="@style/Limbo.Card"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:id="@+id/screen_dot"
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="@drawable/bg_status_dot" />
+
+                            <TextView
+                                android:id="@+id/screen_state"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:text="@string/screen_not_running"
+                                style="@style/Limbo.Text.CardTitle" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/screen_machine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="@string/screen_no_machine"
+                            android:textColor="@color/limbo_text"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/screen_meta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text=""
+                            style="@style/Limbo.Text.Summary" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/screen_enter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_btn_primary"
+                                android:fontFamily="sans-serif-medium"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingLeft="22dp"
+                                android:paddingRight="22dp"
+                                android:stateListAnimator="@null"
+                                android:text="@string/screen_enter"
+                                android:textAllCaps="false"
+                                android:textColor="@color/limbo_on_accent"
+                                android:textSize="14sp" />
+
+                            <Button
+                                android:id="@+id/screen_stop"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/bg_btn_secondary"
+                                android:fontFamily="sans-serif-medium"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingLeft="22dp"
+                                android:paddingRight="22dp"
+                                android:stateListAnimator="@null"
+                                android:text="@string/screen_stop"
+                                android:textAllCaps="false"
+                                android:textColor="@color/limbo_text"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/Limbo.Card"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/screen_hint"
+                            style="@style/Limbo.Text.Summary" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/Limbo.Card"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            style="@style/Limbo.Row">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/screen_ram"
+                                style="@style/Limbo.Text.Row" />
+
+                            <TextView
+                                android:id="@+id/screen_ram_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                style="@style/Limbo.Text.Value" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/Limbo.Row">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/screen_cores"
+                                style="@style/Limbo.Text.Row" />
+
+                            <TextView
+                                android:id="@+id/screen_cores_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                style="@style/Limbo.Text.Value" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/Limbo.Row">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/screen_display"
+                                style="@style/Limbo.Text.Row" />
+
+                            <TextView
+                                android:id="@+id/screen_display_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                style="@style/Limbo.Text.Value" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- Settings page -->
+            <ScrollView
+                android:id="@+id/settings_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:scrollbars="none"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="104dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/appearance"
+                        style="@style/Limbo.Text.SectionLabel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/bg_glass_card"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/row_theme"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_sun"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/theme" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/theme"
+                                    style="@style/Limbo.Text.CardTitle" />
+
+                                <TextView
+                                    android:id="@+id/theme_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text="@string/theme_system"
+                                    style="@style/Limbo.Text.Summary" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/theme" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="50dp"
+                            android:background="@color/limbo_stroke" />
+                        <LinearLayout
+                            android:id="@+id/row_wallpaper"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_image"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/wallpaper" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/wallpaper"
+                                    style="@style/Limbo.Text.CardTitle" />
+
+                                <TextView
+                                    android:id="@+id/wallpaper_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text="@string/default_bg"
+                                    style="@style/Limbo.Text.Summary" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/wallpaper" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/emulator_section"
+                        style="@style/Limbo.Text.SectionLabel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/bg_glass_card"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/row_global_settings"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_nav_settings"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/global_settings" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:text="@string/global_settings"
+                                style="@style/Limbo.Text.CardTitle" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/global_settings" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="50dp"
+                            android:background="@color/limbo_stroke" />
+                        <LinearLayout
+                            android:id="@+id/row_install"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_install"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/install_roms" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:text="@string/install_roms"
+                                style="@style/Limbo.Text.CardTitle" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/install_roms" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="50dp"
+                            android:background="@color/limbo_stroke" />
+                        <LinearLayout
+                            android:id="@+id/row_log"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_log"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/view_log" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:text="@string/view_log"
+                                style="@style/Limbo.Text.CardTitle" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/view_log" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/other_section"
+                        style="@style/Limbo.Text.SectionLabel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_glass_card"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/row_help"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_help"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/help" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:text="@string/help"
+                                style="@style/Limbo.Text.CardTitle" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/help" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="50dp"
+                            android:background="@color/limbo_stroke" />
+                        <LinearLayout
+                            android:id="@+id/row_about"
+                            style="@style/Limbo.Row"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="12dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_info"
+                                android:tint="@color/limbo_text_dim"
+                                android:contentDescription="@string/about" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/about"
+                                    style="@style/Limbo.Text.CardTitle" />
+
+                                <TextView
+                                    android:id="@+id/about_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text=""
+                                    style="@style/Limbo.Text.Summary" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/limbo_text_muted"
+                                android:contentDescription="@string/about" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- ===== Floating glass navigation ===== -->
+    <FrameLayout
+        android:id="@+id/home_nav_shell"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_nav_container"
+        android:elevation="12dp">
+
+        <com.max2idea.android.limbo.ui.GlassBlurView
+            android:id="@+id/home_nav_glass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/home_nav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <LinearLayout
+                android:id="@+id/nav_machines"
+                style="@style/Limbo.NavItem">
+
+                <LinearLayout
+                    android:id="@+id/nav_pill_machines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_nav_active"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="7dp"
+                    android:paddingRight="18dp"
+                    android:paddingBottom="7dp">
+
+                    <ImageView
+                        android:id="@+id/nav_ic_machines"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_nav_machines"
+                        android:tint="@color/limbo_accent"
+                        android:contentDescription="@string/nav_machines" />
+
+                    <TextView
+                        android:id="@+id/nav_tx_machines"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/nav_machines"
+                        android:textColor="@color/limbo_accent"
+                        style="@style/Limbo.NavLabel" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_screen"
+                style="@style/Limbo.NavItem">
+
+                <LinearLayout
+                    android:id="@+id/nav_pill_screen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="7dp"
+                    android:paddingRight="18dp"
+                    android:paddingBottom="7dp">
+
+                    <ImageView
+                        android:id="@+id/nav_ic_screen"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_nav_screen"
+                        android:tint="@color/limbo_text_muted"
+                        android:contentDescription="@string/nav_screen" />
+
+                    <TextView
+                        android:id="@+id/nav_tx_screen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/nav_screen"
+                        android:textColor="@color/limbo_text_muted"
+                        style="@style/Limbo.NavLabel" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_settings"
+                style="@style/Limbo.NavItem">
+
+                <LinearLayout
+                    android:id="@+id/nav_pill_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="7dp"
+                    android:paddingRight="18dp"
+                    android:paddingBottom="7dp">
+
+                    <ImageView
+                        android:id="@+id/nav_ic_settings"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_nav_settings"
+                        android:tint="@color/limbo_text_muted"
+                        android:contentDescription="@string/nav_settings" />
+
+                    <TextView
+                        android:id="@+id/nav_tx_settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/nav_settings"
+                        android:textColor="@color/limbo_text_muted"
+                        style="@style/Limbo.NavLabel" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>
+

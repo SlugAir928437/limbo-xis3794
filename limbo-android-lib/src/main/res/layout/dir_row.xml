@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingLeft="10dip"
-    android:paddingTop="10dip"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_row"
+    android:gravity="center_vertical"
+    android:minHeight="56dp"
     android:orientation="horizontal"
-    android:layout_gravity="center">
-
+    android:paddingLeft="14dp"
+    android:paddingTop="8dp"
+    android:paddingRight="14dp"
+    android:paddingBottom="8dp">
 
     <ImageView
         android:id="@+id/FILE_ICON"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:src="@drawable/close"
-        android:paddingRight="5dp"
-        />
+        android:tint="@color/limbo_text_dim" />
 
-    <TextView android:id="@+id/FILE_NAME"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:textStyle="bold"
-              android:textSize="20dip"
-              android:layout_weight="1"/>
-
+    <TextView
+        android:id="@+id/FILE_NAME"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_weight="1"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textColor="@color/limbo_text"
+        android:textSize="14sp" />
 </LinearLayout>
