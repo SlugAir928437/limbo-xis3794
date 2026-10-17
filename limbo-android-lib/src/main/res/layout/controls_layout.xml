@@ -1,64 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/controls_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_gravity="center"
-    android:layout_marginBottom="20dp"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_glass_card"
+    android:orientation="vertical"
+    android:padding="18dp"
     tools:showIn="@layout/limbo_main">
 
     <LinearLayout
         android:id="@+id/controlm"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/startvm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:focusable="true"
-            android:src="@drawable/play" />
-
-        <ImageButton
-            android:id="@+id/pausevm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:focusable="true"
-            android:src="@drawable/pause" />
-
-        <ImageButton
-            android:id="@+id/stopvm"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:focusable="true"
-            android:src="@drawable/stop" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/restartvm"
-            android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/startvm"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_btn_primary"
+                android:contentDescription="@string/quickStart"
+                android:padding="17dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_play"
+                android:tint="@color/limbo_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/quickStart"
+                android:textColor="@color/limbo_accent"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            android:focusable="true"
-            android:src="@drawable/reset" />
+            <ImageButton
+                android:id="@+id/pausevm"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_btn_secondary"
+                android:contentDescription="@string/quickPause"
+                android:padding="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_pause"
+                android:tint="@color/limbo_text_dim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/quickPause"
+                android:textColor="@color/limbo_text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/stopvm"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_btn_secondary"
+                android:contentDescription="@string/quickStop"
+                android:padding="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_stop"
+                android:tint="@color/limbo_text_dim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/quickStop"
+                android:textColor="@color/limbo_text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/restartvm"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_btn_secondary"
+                android:contentDescription="@string/quickRestart"
+                android:padding="14dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_restart"
+                android:tint="@color/limbo_text_dim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/quickRestart"
+                android:textColor="@color/limbo_text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+
+</LinearLayout>

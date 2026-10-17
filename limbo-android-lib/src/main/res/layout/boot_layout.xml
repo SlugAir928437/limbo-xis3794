@@ -2,219 +2,144 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bootSectionl"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center|center_vertical"
-    android:background="@drawable/border"
-    android:gravity="center|center_vertical"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_glass_card"
     android:orientation="vertical"
-    android:padding="15dp"
+    android:padding="18dp"
     tools:showIn="@layout/limbo_main">
-
 
     <LinearLayout
         android:id="@+id/bootheaderl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/drives" />
-
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_icon_chip"
+            android:contentDescription="@string/BootLabel"
+            android:padding="7dp"
+            android:src="@drawable/ic_power"
+            android:tint="@color/limbo_accent" />
 
         <TextView
             android:id="@+id/bootsectionStr"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:gravity="center|center_vertical"
-            android:padding="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
             android:text="@string/BootLabel"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
+            style="@style/Limbo.Text.Section" />
 
         <TextView
             android:id="@+id/bootsectionsummaryStr"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:maxLines="3"
-            android:minLines="2"
-            android:padding="10dp"
+            android:gravity="end"
+            android:maxLines="2"
+            android:maxWidth="150dp"
+            android:ellipsize="end"
             android:text=""
-            android:textSize="12sp" />
-
+            style="@style/Limbo.Text.Summary" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bootsectionDetails"
-        android:layout_width="fill_parent"
-
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/bootfroml"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:src="@drawable/drives" />
+            style="@style/Limbo.Row">
 
             <TextView
                 android:id="@+id/bootfromstr"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:text="@string/BootFromLabel"
-                android:textSize="15sp" />
+                style="@style/Limbo.Text.Row" />
 
             <Spinner
                 android:id="@+id/bootfromval"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="15sp" />
+                style="@style/Limbo.Spinner" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/firmwarel"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:src="@drawable/sysfile" />
+            style="@style/Limbo.Row">
 
             <TextView
                 android:id="@+id/firmwarestr"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:text="@string/FirmwareLabel"
-                android:textSize="15sp" />
+                style="@style/Limbo.Text.Row" />
 
             <Spinner
                 android:id="@+id/firmwareval"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="15sp" />
+                style="@style/Limbo.Spinner" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/kernell"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:src="@drawable/sysfile" />
+            style="@style/Limbo.Row">
 
             <TextView
                 android:id="@+id/kernelStr"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:text="@string/KernelLabel"
-                android:textSize="15sp" />
+                style="@style/Limbo.Text.Row" />
 
             <Spinner
                 android:id="@+id/kernelval"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="15sp" />
+                style="@style/Limbo.Spinner" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/initrdl"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:src="@drawable/sysfile" />
+            style="@style/Limbo.Row">
 
             <TextView
                 android:id="@+id/initrdStr"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:text="@string/InitrdLabel"
-                android:textSize="15sp" />
+                style="@style/Limbo.Text.Row" />
 
             <Spinner
                 android:id="@+id/initrdval"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="15sp" />
+                style="@style/Limbo.Spinner" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/appendl"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            style="@style/Limbo.Row">
 
             <TextView
                 android:id="@+id/appendStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
                 android:text="@string/AppendLabel"
-                android:textSize="15sp" />
+                style="@style/Limbo.Text.Row" />
 
             <EditText
                 android:id="@+id/appendval"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:hint="@string/AppendHintLabel"
-                android:inputType="textFilter|textNoSuggestions"
-                android:singleLine="true"
-                android:text=""
-                android:textSize="15sp" />
+                style="@style/Limbo.EditText" />
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

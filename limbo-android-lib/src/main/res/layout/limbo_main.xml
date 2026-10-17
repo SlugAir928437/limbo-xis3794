@@ -1,62 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:keepScreenOn="true"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="@color/limbo_bg"
+    android:keepScreenOn="true">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Animated aurora / nebula wallpaper -->
+    <com.max2idea.android.limbo.ui.AuroraBackgroundView
+        android:id="@+id/aurora_background"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
+        android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/scroll_layout"
+    <!-- ================= Content ================= -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:paddingTop="90dp"
+        android:paddingBottom="118dp"
+        android:scrollbars="none"
+        android:overScrollMode="never">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scroll_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fadeScrollbars="false">
+            android:orientation="vertical"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
 
+            <!-- ===== Overview ===== -->
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:id="@+id/tab_overview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:orientation="vertical">
 
                 <include layout="@layout/machine_layout" />
 
                 <include layout="@layout/status_layout" />
 
                 <include layout="@layout/controls_layout" />
+            </LinearLayout>
 
-                <include layout="@layout/userinterface_layout" />
+            <!-- ===== Hardware ===== -->
+            <LinearLayout
+                android:id="@+id/tab_hardware"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <include layout="@layout/board_layout" />
+
+                <include layout="@layout/advanced_layout" />
+            </LinearLayout>
+
+            <!-- ===== Storage ===== -->
+            <LinearLayout
+                android:id="@+id/tab_storage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include layout="@layout/storage_layout" />
 
                 <include layout="@layout/removable_storage_layout" />
 
                 <include layout="@layout/boot_layout" />
+            </LinearLayout>
+
+            <!-- ===== Display ===== -->
+            <LinearLayout
+                android:id="@+id/tab_display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/userinterface_layout" />
 
                 <include layout="@layout/graphics_layout" />
 
                 <include layout="@layout/audio_layout" />
+            </LinearLayout>
+
+            <!-- ===== Network ===== -->
+            <LinearLayout
+                android:id="@+id/tab_network"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include layout="@layout/network_layout" />
-
-                <include layout="@layout/advanced_layout" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
 
-</LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ================= Floating glass toolbar ================= -->
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="top"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="14dp"
+        android:background="@drawable/bg_toolbar"
+        android:elevation="10dp">
+
+        <com.max2idea.android.limbo.ui.GlassBlurView
+            android:id="@+id/toolbar_glass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="4dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/limbo"
+                android:contentDescription="@string/app_short_name" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="6dp"
+                app:contentInsetStart="0dp"
+                app:titleTextAppearance="@style/Limbo.ToolbarTitle"
+                app:titleTextColor="@color/limbo_text"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- ================= Floating M3 bottom bar ================= -->
+    <FrameLayout
+        android:id="@+id/bottom_nav_container"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_nav_container"
+        android:elevation="14dp">
+
+        <com.max2idea.android.limbo.ui.GlassBlurView
+            android:id="@+id/bottom_nav_glass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <LinearLayout
+                android:id="@+id/nav_overview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/nav_ic_overview"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="7dp"
+                    android:scaleType="centerInside"
+                    android:background="@drawable/bg_nav_active"
+                    android:src="@drawable/ic_tab_overview"
+                    android:contentDescription="@string/tab_overview" />
+
+                <TextView
+                    android:id="@+id/nav_tx_overview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_overview"
+                    android:textColor="@color/limbo_accent"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_hardware"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/nav_ic_hardware"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="7dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_tab_cpu"
+                    android:contentDescription="@string/tab_hardware" />
+
+                <TextView
+                    android:id="@+id/nav_tx_hardware"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_hardware"
+                    android:textColor="@color/limbo_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_storage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/nav_ic_storage"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="7dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_tab_storage"
+                    android:contentDescription="@string/tab_storage" />
+
+                <TextView
+                    android:id="@+id/nav_tx_storage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_storage"
+                    android:textColor="@color/limbo_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_display"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/nav_ic_display"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="7dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_tab_display"
+                    android:contentDescription="@string/tab_display" />
+
+                <TextView
+                    android:id="@+id/nav_tx_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_display"
+                    android:textColor="@color/limbo_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_network"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/nav_ic_network"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="7dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_tab_network"
+                    android:contentDescription="@string/tab_network" />
+
+                <TextView
+                    android:id="@+id/nav_tx_network"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_network"
+                    android:textColor="@color/limbo_text_muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

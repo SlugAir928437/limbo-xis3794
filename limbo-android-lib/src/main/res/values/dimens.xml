@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="limbo_card_radius">24dp</dimen>
+    <dimen name="limbo_row_radius">16dp</dimen>
+    <dimen name="limbo_content_padding">14dp</dimen>
+    <dimen name="limbo_card_padding">18dp</dimen>
+    <dimen name="limbo_card_gap">12dp</dimen>
+    <dimen name="limbo_row_min_height">54dp</dimen>
+    <dimen name="limbo_nav_height">68dp</dimen>
+    <dimen name="limbo_toolbar_height">56dp</dimen>
+    <dimen name="limbo_text_title">19sp</dimen>
+    <dimen name="limbo_text_section">16sp</dimen>
+    <dimen name="limbo_text_row">14sp</dimen>
+    <dimen name="limbo_text_small">12sp</dimen>
+</resources>

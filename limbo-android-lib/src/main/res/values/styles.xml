@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Base application theme. -->
+
+    <!-- Base application theme (kept for legacy screens / dialogs) -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -20,4 +20,132 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <!-- ============================================================
+         Limbo "Aurora Glass" design system
+         ============================================================ -->
+
+    <style name="LimboMainTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/limbo_accent</item>
+        <item name="colorPrimaryDark">@color/limbo_bg</item>
+        <item name="colorAccent">@color/limbo_accent</item>
+        <item name="android:windowBackground">@color/limbo_bg</item>
+        <item name="android:statusBarColor">@color/limbo_bg</item>
+        <item name="android:navigationBarColor">@color/limbo_bg</item>
+        <item name="android:textColorPrimary">@color/limbo_text</item>
+        <item name="android:textColorSecondary">@color/limbo_text_dim</item>
+        <item name="android:textColorHint">@color/limbo_text_muted</item>
+        <item name="android:colorControlNormal">@color/limbo_text_dim</item>
+        <item name="android:colorControlActivated">@color/limbo_accent</item>
+        <item name="android:colorControlHighlight">@color/limbo_ripple</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:popupMenuStyle">@style/LimboPopupMenu</item>
+        <item name="actionOverflowButtonStyle">@style/LimboOverflowButton</item>
+    </style>
+
+    <style name="LimboPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/limbo_bg_elev</item>
+        <item name="android:textColor">@color/limbo_text</item>
+    </style>
+
+    <style name="LimboOverflowButton" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/limbo_text</item>
+    </style>
+
+    <!-- Base styles (dotted style names infer their parents) -->
+    <style name="Limbo" />
+
+    <style name="Limbo.Text" />
+
+    <!-- Text -->
+    <style name="Limbo.Text.Title">
+        <item name="android:textColor">@color/limbo_text</item>
+        <item name="android:textSize">@dimen/limbo_text_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Limbo.ToolbarTitle">
+        <item name="android:textColor">@color/limbo_text</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Limbo.Text.Section">
+        <item name="android:textColor">@color/limbo_text</item>
+        <item name="android:textSize">@dimen/limbo_text_section</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Limbo.Text.Row">
+        <item name="android:textColor">@color/limbo_text_dim</item>
+        <item name="android:textSize">@dimen/limbo_text_row</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Limbo.Text.Value">
+        <item name="android:textColor">@color/limbo_accent</item>
+        <item name="android:textSize">@dimen/limbo_text_row</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Limbo.Text.Summary">
+        <item name="android:textColor">@color/limbo_text_muted</item>
+        <item name="android:textSize">@dimen/limbo_text_small</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Surfaces -->
+    <style name="Limbo.Card">
+        <item name="android:background">@drawable/bg_glass_card</item>
+        <item name="android:padding">@dimen/limbo_card_padding</item>
+        <item name="android:layout_marginBottom">@dimen/limbo_card_gap</item>
+    </style>
+
+    <style name="Limbo.Row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/limbo_row_min_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:background">@drawable/bg_row</item>
+    </style>
+
+    <style name="Limbo.Spinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">end|center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/limbo_text_row</item>
+        <item name="android:textColor">@color/spinner_color</item>
+    </style>
+
+    <style name="Limbo.EditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/limbo_text_row</item>
+        <item name="android:textColor">@color/limbo_accent</item>
+        <item name="android:textColorHint">@color/limbo_text_muted</item>
+        <item name="android:background">@null</item>
+        <item name="android:inputType">textFilter|textNoSuggestions</item>
+    </style>
+
+    <style name="Limbo.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:tint">@color/limbo_accent</item>
+    </style>
+
+    <style name="Limbo.IconChip">
+        <item name="android:layout_width">34dp</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:padding">7dp</item>
+        <item name="android:background">@drawable/bg_icon_chip</item>
+    </style>
 </resources>

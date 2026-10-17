@@ -164,7 +164,7 @@ public class Config {
     public static String defaultKeyboardLayout = "en-us";
 
     //a little nicer ui
-    public static boolean collapseSections = true;
+    public static boolean collapseSections = false;
 
     public static boolean enableToggleKeyboard = false;
 

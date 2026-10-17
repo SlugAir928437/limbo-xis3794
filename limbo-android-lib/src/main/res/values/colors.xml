@@ -3,4 +3,30 @@
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- ===== Limbo Aurora Glass palette ===== -->
+    <color name="limbo_bg">#07080E</color>
+    <color name="limbo_bg_elev">#0C0E17</color>
+    <color name="limbo_aurora_indigo">#4C6BFF</color>
+    <color name="limbo_aurora_violet">#B266FF</color>
+    <color name="limbo_aurora_cyan">#3AD9FF</color>
+
+    <color name="limbo_accent">#7C9BFF</color>
+    <color name="limbo_accent_2">#C08CFF</color>
+    <color name="limbo_cyan">#59D7FF</color>
+
+    <color name="limbo_text">#F3F5FF</color>
+    <color name="limbo_text_dim">#ACB4D0</color>
+    <color name="limbo_text_muted">#707894</color>
+
+    <color name="limbo_success">#43E3A0</color>
+    <color name="limbo_warning">#FFC470</color>
+    <color name="limbo_danger">#FF7285</color>
+
+    <color name="glass_fill">#12FFFFFF</color>
+    <color name="glass_fill_strong">#1CFFFFFF</color>
+    <color name="glass_stroke">#24FFFFFF</color>
+    <color name="glass_stroke_strong">#38FFFFFF</color>
+
+    <color name="limbo_ripple">#1FFFFFFF</color>
 </resources>

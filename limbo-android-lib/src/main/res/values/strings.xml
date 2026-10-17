@@ -426,4 +426,24 @@
     <string name="BareAppend">"Append"</string>
     <string name="InstalledFilesToast">"BIOS and Keymap files installed"</string>
     <string name="VersionInfoFailedToast">"Could not load version information: "</string>
+
+    <!-- Aurora Glass UI -->
+    <string name="tab_overview">"Overview"</string>
+    <string name="tab_hardware">"Hardware"</string>
+    <string name="tab_storage">"Storage"</string>
+    <string name="tab_display">"Display"</string>
+    <string name="tab_network">"Network"</string>
+    <string name="quickStart">"Start"</string>
+    <string name="quickPause">"Pause"</string>
+    <string name="quickStop">"Stop"</string>
+    <string name="quickRestart">"Restart"</string>
+    <string name="statusRunning">"Running"</string>
+    <string name="statusStopped">"Stopped"</string>
+    <string name="statusPaused">"Paused"</string>
+    <string name="statusReady">"Ready"</string>
+    <string name="coresValue">"%1$d cores"</string>
+    <string name="ramValueGb">"%1$.1f GB"</string>
+    <string name="ramValueMb">"%1$d MB"</string>
+    <string name="machineProfile">"Select or create a virtual machine"</string>
+    <string name="appSubtitle">"QEMU Emulator"</string>
 </resources>

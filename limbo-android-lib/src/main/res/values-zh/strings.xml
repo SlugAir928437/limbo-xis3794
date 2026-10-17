@@ -427,4 +427,24 @@
     <string name="BareAppend">"附加参数"</string>
     <string name="InstalledFilesToast">"BIOS与键盘映射文件已安装"</string>
     <string name="VersionInfoFailedToast">"无法加载版本信息: "</string>
+
+    <!-- Aurora Glass UI -->
+    <string name="tab_overview">"概览"</string>
+    <string name="tab_hardware">"硬件"</string>
+    <string name="tab_storage">"存储"</string>
+    <string name="tab_display">"显示"</string>
+    <string name="tab_network">"网络"</string>
+    <string name="quickStart">"启动"</string>
+    <string name="quickPause">"暂停"</string>
+    <string name="quickStop">"停止"</string>
+    <string name="quickRestart">"重启"</string>
+    <string name="statusRunning">"运行中"</string>
+    <string name="statusStopped">"已停止"</string>
+    <string name="statusPaused">"已暂停"</string>
+    <string name="statusReady">"就绪"</string>
+    <string name="coresValue">"%1$d 核"</string>
+    <string name="ramValueGb">"%1$.1f GB"</string>
+    <string name="ramValueMb">"%1$d MB"</string>
+    <string name="machineProfile">"选择或新建一台虚拟机"</string>
+    <string name="appSubtitle">"QEMU 模拟器"</string>
 </resources>

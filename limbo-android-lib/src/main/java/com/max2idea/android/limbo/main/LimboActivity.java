@@ -56,6 +56,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.limbo.emu.lib.R;
@@ -80,7 +81,9 @@ import com.max2idea.android.limbo.machine.MachineImporter;
 import com.max2idea.android.limbo.machine.MachineProperty;
 import com.max2idea.android.limbo.network.NetworkUtils;
 import com.max2idea.android.limbo.toast.ToastUtils;
+import com.max2idea.android.limbo.ui.GlassBlurView;
 import com.max2idea.android.limbo.ui.SpinnerAdapter;
+import com.max2idea.android.limbo.ui.SteplessSlider;
 import com.max2idea.android.limbo.updates.UpdateChecker;
 
 import java.io.File;
@@ -164,11 +167,11 @@ public class LimboActivity extends AppCompatActivity
     private Spinner mVGAConfig;
     private Spinner mSoundCard;
     private Spinner mUI;
-    private CheckBox mDisableACPI;
-    private CheckBox mDisableHPET;
-    private CheckBox mDisableTSC;
-    private CheckBox mEnableKVM;
-    private CheckBox mEnableMTTCG;
+    private CompoundButton mDisableACPI;
+    private CompoundButton mDisableHPET;
+    private CompoundButton mDisableTSC;
+    private CompoundButton mEnableKVM;
+    private CompoundButton mEnableMTTCG;
     private Spinner mKeyboard;
     private Spinner mMouse;
 
@@ -198,6 +201,19 @@ public class LimboActivity extends AppCompatActivity
     private TextView mAudioSectionSummary;
     private TextView mNetworkSectionSummary;
     private TextView mBootSectionSummary;
+    // Aurora Glass UI
+    private GlassBlurView mToolbarGlass;
+    private GlassBlurView mNavGlass;
+    private LinearLayout mTabOverview, mTabHardware, mTabStorage, mTabDisplay, mTabNetwork;
+    private final View[] mNavRoots = new View[5];
+    private final ImageView[] mNavIcons = new ImageView[5];
+    private final TextView[] mNavLabels = new TextView[5];
+    private int mCurrentTab = 0;
+    private SteplessSlider mCpuSlider, mRamSlider;
+    private TextView mCpuValue, mRamValue;
+    private TextView mStatusPill, mStatusDetail;
+    private boolean mSyncingSliders;
+
     private TextView mAdvancedSectionSummary;
 
     //layouts
@@ -245,6 +261,7 @@ public class LimboActivity extends AppCompatActivity
                     enableRemovableDiskValues(false);
                     enableNonRemovableDeviceOptions(false);
                 }
+                applyStatusVisuals(status_changed);
             }
         });
     }
@@ -371,6 +388,7 @@ public class LimboActivity extends AppCompatActivity
 
         mCPUNum.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                syncCpuSliderFromSpinner();
                 if (getMachine() == null)
                     return;
                 final String cpuNum = (String) ((ArrayAdapter<?>) mCPUNum.getAdapter()).getItem(position);
@@ -390,6 +408,7 @@ public class LimboActivity extends AppCompatActivity
 
         mRamSize.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                syncRamSliderFromSpinner();
                 if (getMachine() == null)
                     return;
                 String ram = (String) ((ArrayAdapter<?>) mRamSize.getAdapter()).getItem(position);
@@ -997,6 +1016,7 @@ public class LimboActivity extends AppCompatActivity
         populateAttributesUI();
         checkFirstLaunch();
         setupToolbar();
+        setupModernUI();
         checkUpdate();
         checkLog();
         checkAndLoadLibs();
@@ -1116,6 +1136,12 @@ public class LimboActivity extends AppCompatActivity
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 savePendingEditText();
+                if (mToolbarGlass != null) {
+                    mToolbarGlass.refresh();
+                }
+                if (mNavGlass != null) {
+                    mNavGlass.refresh();
+                }
             }
         });
 
@@ -1308,12 +1334,11 @@ public class LimboActivity extends AppCompatActivity
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(R.drawable.limbo);
-            ab.setDisplayShowHomeEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayShowCustomEnabled(true);
+            ab.setDisplayShowHomeEnabled(false);
+            ab.setDisplayHomeAsUpEnabled(false);
+            ab.setDisplayShowCustomEnabled(false);
             ab.setDisplayShowTitleEnabled(true);
-            ab.setTitle(R.string.app_name);
+            ab.setTitle(R.string.app_short_name);
         }
     }
 
@@ -1828,7 +1853,287 @@ public class LimboActivity extends AppCompatActivity
 
     }
 
+    // ============================================================
+    // Aurora Glass UI
+    // ============================================================
+
+    private void setupModernUI() {
+        mToolbarGlass = findViewById(R.id.toolbar_glass);
+        mNavGlass = findViewById(R.id.bottom_nav_glass);
+        if (mToolbarGlass != null) {
+            mToolbarGlass.setCornerRadiusDp(20f);
+            mToolbarGlass.setTarget(mScrollView);
+        }
+        if (mNavGlass != null) {
+            mNavGlass.setCornerRadiusDp(34f);
+            mNavGlass.setTarget(mScrollView);
+        }
+
+        mTabOverview = findViewById(R.id.tab_overview);
+        mTabHardware = findViewById(R.id.tab_hardware);
+        mTabStorage = findViewById(R.id.tab_storage);
+        mTabDisplay = findViewById(R.id.tab_display);
+        mTabNetwork = findViewById(R.id.tab_network);
+
+        mNavRoots[0] = findViewById(R.id.nav_overview);
+        mNavRoots[1] = findViewById(R.id.nav_hardware);
+        mNavRoots[2] = findViewById(R.id.nav_storage);
+        mNavRoots[3] = findViewById(R.id.nav_display);
+        mNavRoots[4] = findViewById(R.id.nav_network);
+
+        mNavIcons[0] = findViewById(R.id.nav_ic_overview);
+        mNavIcons[1] = findViewById(R.id.nav_ic_hardware);
+        mNavIcons[2] = findViewById(R.id.nav_ic_storage);
+        mNavIcons[3] = findViewById(R.id.nav_ic_display);
+        mNavIcons[4] = findViewById(R.id.nav_ic_network);
+
+        mNavLabels[0] = findViewById(R.id.nav_tx_overview);
+        mNavLabels[1] = findViewById(R.id.nav_tx_hardware);
+        mNavLabels[2] = findViewById(R.id.nav_tx_storage);
+        mNavLabels[3] = findViewById(R.id.nav_tx_display);
+        mNavLabels[4] = findViewById(R.id.nav_tx_network);
+
+        for (int i = 0; i < mNavRoots.length; i++) {
+            final int index = i;
+            if (mNavRoots[i] != null) {
+                mNavRoots[i].setOnClickListener(new OnClickListener() {
+                    public void onClick(View view) {
+                        selectTab(index);
+                    }
+                });
+            }
+        }
+
+        mStatusPill = findViewById(R.id.status_pill);
+        mStatusDetail = findViewById(R.id.status_detail);
+
+        setupSteplessSliders();
+        selectTab(0);
+        applyStatusVisuals(MachineController.getInstance().getCurrStatus());
+
+        refreshGlassLater(260);
+        refreshGlassLater(1400);
+    }
+
+    private void refreshGlassLater(long delay) {
+        if (mScrollView == null) {
+            return;
+        }
+        mScrollView.postDelayed(new Runnable() {
+            public void run() {
+                if (mToolbarGlass != null) {
+                    mToolbarGlass.refresh();
+                }
+                if (mNavGlass != null) {
+                    mNavGlass.refresh();
+                }
+            }
+        }, delay);
+    }
+
+    private void setupSteplessSliders() {
+        mCpuSlider = findViewById(R.id.cpunum_slider);
+        mCpuValue = findViewById(R.id.cpunum_value);
+        mRamSlider = findViewById(R.id.rammem_slider);
+        mRamValue = findViewById(R.id.rammem_value);
+        if (mCpuSlider == null || mRamSlider == null) {
+            return;
+        }
+
+        mCpuSlider.setRange(1, Math.max(1, mCPUNum != null ? mCPUNum.getCount() : Config.MAX_CPU_NUM), 1);
+        mCpuSlider.setOnValueChangedListener(new SteplessSlider.OnValueChangedListener() {
+            public void onValueChanged(int value, boolean fromUser) {
+                if (mCpuValue != null) {
+                    mCpuValue.setText(getString(R.string.coresValue, value));
+                }
+                if (!fromUser || mSyncingSliders || mCPUNum == null) {
+                    return;
+                }
+                final int index = value - 1;
+                if (index >= 0 && index < mCPUNum.getCount()
+                        && mCPUNum.getSelectedItemPosition() != index) {
+                    mCPUNum.setSelection(index);
+                }
+            }
+
+            public void onValueCommitted(int value) {
+            }
+        });
+
+        mRamSlider.setRange(0, Math.max(8, mRamSize != null ? (mRamSize.getCount() - 1) * 8 : 8184), 8);
+        mRamSlider.setOnValueChangedListener(new SteplessSlider.OnValueChangedListener() {
+            public void onValueChanged(int value, boolean fromUser) {
+                if (mRamValue != null) {
+                    mRamValue.setText(formatRam(value));
+                }
+            }
+
+            public void onValueCommitted(int value) {
+                if (mSyncingSliders || mRamSize == null) {
+                    return;
+                }
+                final int index = ramToIndex(value);
+                if (index >= 0 && index < mRamSize.getCount()
+                        && mRamSize.getSelectedItemPosition() != index) {
+                    mRamSize.setSelection(index);
+                }
+            }
+        });
+
+        syncSlidersFromMachine();
+    }
+
+    private int ramToIndex(int mb) {
+        return mb <= 0 ? 0 : Math.round(mb / 8f);
+    }
+
+    private String formatRam(int mb) {
+        if (mb <= 0) {
+            return getString(R.string.ramValueMb, 4);
+        }
+        if (mb >= 1024) {
+            return getString(R.string.ramValueGb, mb / 1024f);
+        }
+        return getString(R.string.ramValueMb, mb);
+    }
+
+    private void syncCpuSliderFromSpinner() {
+        if (mCpuSlider == null || mCPUNum == null || mSyncingSliders) {
+            return;
+        }
+        final int position = mCPUNum.getSelectedItemPosition();
+        if (position < 0) {
+            return;
+        }
+        mSyncingSliders = true;
+        try {
+            final int cores = position + 1;
+            mCpuSlider.setValue(cores);
+            if (mCpuValue != null) {
+                mCpuValue.setText(getString(R.string.coresValue, cores));
+            }
+        } finally {
+            mSyncingSliders = false;
+        }
+    }
+
+    private void syncRamSliderFromSpinner() {
+        if (mRamSlider == null || mRamSize == null || mSyncingSliders) {
+            return;
+        }
+        final int position = mRamSize.getSelectedItemPosition();
+        if (position < 0) {
+            return;
+        }
+        mSyncingSliders = true;
+        try {
+            final int mb = position <= 0 ? 0 : position * 8;
+            mRamSlider.setValue(mb);
+            if (mRamValue != null) {
+                mRamValue.setText(formatRam(mb));
+            }
+        } finally {
+            mSyncingSliders = false;
+        }
+    }
+
+    private void syncSlidersFromMachine() {
+        if (mSyncingSliders) {
+            return;
+        }
+        syncCpuSliderFromSpinner();
+        syncRamSliderFromSpinner();
+    }
+
+    private void selectTab(int index) {
+        final LinearLayout[] tabs = {mTabOverview, mTabHardware, mTabStorage, mTabDisplay, mTabNetwork};
+        if (index < 0 || index >= tabs.length) {
+            return;
+        }
+        mCurrentTab = index;
+        for (int i = 0; i < tabs.length; i++) {
+            final LinearLayout tab = tabs[i];
+            if (tab == null) {
+                continue;
+            }
+            if (i == index) {
+                tab.setVisibility(View.VISIBLE);
+                tab.setAlpha(0f);
+                tab.animate().alpha(1f).setDuration(220).start();
+            } else {
+                tab.setVisibility(View.GONE);
+            }
+        }
+        updateNavState();
+        if (mScrollView != null) {
+            mScrollView.scrollTo(0, 0);
+        }
+        if (mToolbarGlass != null) {
+            mToolbarGlass.refresh();
+        }
+        if (mNavGlass != null) {
+            mNavGlass.refresh();
+        }
+    }
+
+    private void updateNavState() {
+        final int activeColor = ContextCompat.getColor(this, R.color.limbo_accent);
+        final int inactiveColor = ContextCompat.getColor(this, R.color.limbo_text_muted);
+        for (int i = 0; i < mNavRoots.length; i++) {
+            final boolean active = i == mCurrentTab;
+            if (mNavIcons[i] != null) {
+                mNavIcons[i].setBackgroundResource(active ? R.drawable.bg_nav_active : 0);
+                mNavIcons[i].setColorFilter(active ? activeColor : inactiveColor);
+                mNavIcons[i].animate().scaleX(active ? 1.12f : 1f).scaleY(active ? 1.12f : 1f)
+                        .setDuration(180).start();
+            }
+            if (mNavLabels[i] != null) {
+                mNavLabels[i].setTextColor(active ? activeColor : inactiveColor);
+            }
+        }
+    }
+
+    private void applyStatusVisuals(MachineStatus status) {
+        if (mStatus == null) {
+            return;
+        }
+        final boolean running = MachineController.getInstance().isRunning();
+        final boolean paused = status == MachineStatus.Paused;
+        final int color = paused ? ContextCompat.getColor(this, R.color.limbo_warning)
+                : running ? ContextCompat.getColor(this, R.color.limbo_success)
+                : ContextCompat.getColor(this, R.color.limbo_text_muted);
+
+        mStatus.setImageResource(R.drawable.ic_power);
+        mStatus.setColorFilter(color);
+
+        if (mStatusPill != null) {
+            mStatusPill.setText(mStatusText.getText());
+            mStatusPill.setTextColor(running
+                    ? color : ContextCompat.getColor(this, R.color.limbo_text_dim));
+            mStatusPill.setBackgroundResource(running
+                    ? R.drawable.bg_chip_accent : R.drawable.bg_chip_neutral);
+        }
+
+        if (mStatusDetail != null) {
+            final Machine machine = getMachine();
+            final String detail = machine != null && machine.getName() != null
+                    ? machine.getName() : getString(R.string.appSubtitle);
+            mStatusDetail.setText(detail);
+        }
+    }
+
     private void setupSections() {
+
+        // Summaries are always bound: tab pages show every card expanded.
+        mCPUSectionSummary = findViewById(R.id.cpusectionsummaryStr);
+        mStorageSectionSummary = findViewById(R.id.storagesectionsummaryStr);
+        mUISectionSummary = findViewById(R.id.uisectionsummaryStr);
+        mRemovableStorageSectionSummary = findViewById(R.id.removablesectionsummaryStr);
+        mGraphicsSectionSummary = findViewById(R.id.graphicssectionsummaryStr);
+        mAudioSectionSummary = findViewById(R.id.audiosectionsummaryStr);
+        mNetworkSectionSummary = findViewById(R.id.networksectionsummaryStr);
+        mBootSectionSummary = findViewById(R.id.bootsectionsummaryStr);
+        mAdvancedSectionSummary = findViewById(R.id.advancedsectionsummaryStr);
 
         if (Config.collapseSections) {
             mCPUSectionDetails = findViewById(R.id.cpusectionDetails);
@@ -2187,6 +2492,7 @@ public class LimboActivity extends AppCompatActivity
         }
         setUserPressed(true);
         machineLoaded = false;
+        syncSlidersFromMachine();
         mMachine.setEnabled(!MachineController.getInstance().isRunning());
     }
 
@@ -2788,8 +3094,9 @@ private void populateFirmware() {
         menu.add(0, LICENSE, 0, R.string.License).setIcon(android.R.drawable.ic_menu_help);
         menu.add(0, QUIT, 0, R.string.Exit).setIcon(android.R.drawable.ic_lock_power_off);
 
-        for (int i = 0; i < 2; i++) {
-            menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        // Everything lives in the overflow so the floating glass toolbar stays clean.
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
         return true;
     }

@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/customSpinnerDropDownItem"
     style="@style/leftEllipsisSpinnerDropDownItem"
     android:layout_width="fill_parent"
-    android:textColor="#FFFFFF"
-    android:layout_height="?android:attr/listPreferredItemHeight" />
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:textColor="#F3F5FF"
+    android:textSize="14sp" />
