@@ -172,6 +172,21 @@ public class HomeController implements
         grid.setAdapter(adapter);
 
         final View homeContent = activity.findViewById(R.id.home_content);
+        final View navShell = activity.findViewById(R.id.home_nav_shell);
+        final View navRow = activity.findViewById(R.id.home_nav);
+        if (navShell != null && navRow != null) {
+            navRow.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    int width = right - left;
+                    if (width > 0 && navShell.getLayoutParams().width != width) {
+                        navShell.getLayoutParams().width = width;
+                        navShell.requestLayout();
+                    }
+                }
+            });
+        }
         if (navGlass != null) {
             navGlass.setCornerRadiusDp(38f);
             navGlass.setTarget(homeContent);

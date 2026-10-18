@@ -13,7 +13,6 @@
             android:name="LimboEmuActivity"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize"
             android:label="Limbo SPARC"
-            android:launchMode="singleTop"
             android:theme="@style/LimboMainTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
