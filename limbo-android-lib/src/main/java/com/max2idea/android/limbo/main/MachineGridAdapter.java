@@ -42,6 +42,8 @@ public class MachineGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onMore(Item item);
 
+        void onStart(Item item);
+
         void onAdd();
     }
 
@@ -149,6 +151,12 @@ public class MachineGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 listener.onMore(item);
             }
         });
+        h.play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onStart(item);
+            }
+        });
     }
 
     static class MachineHolder extends RecyclerView.ViewHolder {
@@ -160,6 +168,7 @@ public class MachineGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final TextView arch;
         final View dot;
         final ImageButton more;
+        final ImageButton play;
 
         MachineHolder(View view) {
             super(view);
@@ -171,6 +180,7 @@ public class MachineGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             arch = view.findViewById(R.id.machine_arch);
             dot = view.findViewById(R.id.machine_dot);
             more = view.findViewById(R.id.machine_more);
+            play = view.findViewById(R.id.machine_play);
         }
     }
 

@@ -498,4 +498,14 @@
     <string name="stop_first">"请先停止该虚拟机"</string>
     <string name="stop_vm_confirm">"确定要停止正在运行的虚拟机吗？"</string>
     <string name="back">"返回"</string>
+    <string name="configure">"配置"</string>
+    <string name="machine_count_hint">"%1$d 台虚拟机 · 点击卡片配置并启动"</string>
+    <string name="section_files">"文件"</string>
+    <string name="section_display">"显示"</string>
+    <string name="section_advanced">"高级"</string>
+    <string name="section_network">"网络"</string>
+    <string name="section_disk">"磁盘"</string>
+    <string name="section_audio">"音频"</string>
+    <string name="section_updates">"更新"</string>
+    <string name="fullscreen_summary">"以全屏方式显示虚拟机画面"</string>
 </resources>

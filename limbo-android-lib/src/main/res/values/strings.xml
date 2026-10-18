@@ -497,4 +497,14 @@
     <string name="stop_first">"Stop the machine first"</string>
     <string name="stop_vm_confirm">"Stop the running virtual machine?"</string>
     <string name="back">"Back"</string>
+    <string name="configure">"Configure"</string>
+    <string name="machine_count_hint">"%1$d machines · tap a card to configure and start"</string>
+    <string name="section_files">"Files"</string>
+    <string name="section_display">"Display"</string>
+    <string name="section_advanced">"Advanced"</string>
+    <string name="section_network">"Network"</string>
+    <string name="section_disk">"Disk"</string>
+    <string name="section_audio">"Audio"</string>
+    <string name="section_updates">"Updates"</string>
+    <string name="fullscreen_summary">"Show the virtual machine in fullscreen"</string>
 </resources>

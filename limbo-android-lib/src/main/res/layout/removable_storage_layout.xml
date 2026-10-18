@@ -58,12 +58,12 @@
             android:id="@+id/cdromimgl"
             style="@style/Limbo.Row">
 
-            <CheckBox
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/cdromimgcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/limbo_accent"
-                android:contentDescription="@string/CdromLabel" />
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
             <TextView
                 android:id="@+id/cdromimgstr"
@@ -94,12 +94,12 @@
             android:id="@+id/floppyimgl"
             style="@style/Limbo.Row">
 
-            <CheckBox
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/floppyimgcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/limbo_accent"
-                android:contentDescription="@string/FloppyALabel" />
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
             <TextView
                 android:id="@+id/floppyimgstr"
@@ -119,12 +119,12 @@
             android:id="@+id/floppybimgl"
             style="@style/Limbo.Row">
 
-            <CheckBox
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/floppybimgcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/limbo_accent"
-                android:contentDescription="@string/FloppyBLabel" />
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
             <TextView
                 android:id="@+id/floppybimgstr"
@@ -144,12 +144,12 @@
             android:id="@+id/sdcardimgl"
             style="@style/Limbo.Row">
 
-            <CheckBox
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/sdcardimgcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/limbo_accent"
-                android:contentDescription="@string/SdCardLabel" />
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
             <TextView
                 android:id="@+id/sdcardimgstr"

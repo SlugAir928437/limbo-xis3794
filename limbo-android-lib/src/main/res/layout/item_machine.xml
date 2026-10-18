@@ -8,11 +8,11 @@
         android:id="@+id/machine_card_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="150dp"
-        android:background="@drawable/bg_glass_card"
+        android:minHeight="196dp"
+        android:background="@drawable/bg_machine_card"
         android:elevation="1dp"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,23 +21,23 @@
             android:orientation="horizontal">
 
             <FrameLayout
-                android:layout_width="44dp"
-                android:layout_height="44dp">
+                android:layout_width="64dp"
+                android:layout_height="64dp">
 
                 <TextView
                     android:id="@+id/machine_letter"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/bg_icon_chip"
                     android:gravity="center"
                     android:textColor="@color/limbo_accent"
-                    android:textSize="17sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/machine_icon"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/bg_icon_chip"
                     android:scaleType="centerCrop"
                     android:visibility="gone" />
@@ -58,8 +58,8 @@
 
             <ImageButton
                 android:id="@+id/machine_more"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/delete_vm"
                 android:padding="6dp"
@@ -88,18 +88,48 @@
             android:ellipsize="end"
             style="@style/Limbo.Text.Summary" />
 
-        <TextView
-            android:id="@+id/machine_arch"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_chip_neutral"
-            android:paddingLeft="9dp"
-            android:paddingTop="3dp"
-            android:paddingRight="9dp"
-            android:paddingBottom="3dp"
-            android:text=""
-            android:textColor="@color/limbo_text_muted"
-            android:textSize="10sp" />
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/machine_arch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_neutral"
+                android:paddingLeft="9dp"
+                android:paddingTop="3dp"
+                android:paddingRight="9dp"
+                android:paddingBottom="3dp"
+                android:text=""
+                android:textColor="@color/limbo_text_muted"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/machine_play"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/quickStart"
+                android:padding="7dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_play"
+                android:tint="@color/limbo_accent" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_chevron_right"
+                android:tint="@color/limbo_text_muted"
+                android:contentDescription="@string/configure" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

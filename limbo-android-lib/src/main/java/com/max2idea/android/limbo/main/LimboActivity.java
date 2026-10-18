@@ -45,7 +45,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -155,10 +154,10 @@ public class LimboActivity extends AppCompatActivity
     private Spinner mFDA;
     private Spinner mFDB;
     private Spinner mSD;
-    private CheckBox mCDenable;
-    private CheckBox mFDAenable;
-    private CheckBox mFDBenable;
-    private CheckBox mSDenable;
+    private CompoundButton mCDenable;
+    private CompoundButton mFDAenable;
+    private CompoundButton mFDBenable;
+    private CompoundButton mSDenable;
     private ImageView mCDOptions;
 
     // misc
@@ -206,6 +205,8 @@ public class LimboActivity extends AppCompatActivity
     private TextView mBootSectionSummary;
     // Home / config modes
     public static final String EXTRA_MACHINE = "limbo_machine";
+    public static final String EXTRA_START = "limbo_autostart";
+    private boolean pendingAutoStart;
     private HomeController homeController;
     private boolean homeMode;
     private String pendingMachineName;
@@ -302,7 +303,7 @@ public class LimboActivity extends AppCompatActivity
         disableRemovableDiskListener(mCDenable, mCD);
     }
 
-    private void disableRemovableDiskListener(CheckBox enableDrive, Spinner spinner) {
+    private void disableRemovableDiskListener(CompoundButton enableDrive, Spinner spinner) {
         enableDrive.setOnCheckedChangeListener(null);
         spinner.setOnItemSelectedListener(null);
     }
@@ -314,7 +315,7 @@ public class LimboActivity extends AppCompatActivity
         enableRemovableDiskListener(mSD, mSDenable, null, MachineProperty.SD, FileType.SD);
     }
 
-    private void enableRemovableDiskListener(final Spinner spinner, final CheckBox driveEnable,
+    private void enableRemovableDiskListener(final Spinner spinner, final CompoundButton driveEnable,
                                              final ImageView driveOptions,
                                              final MachineProperty driveName,
                                              final FileType fileType) {
@@ -1029,6 +1030,8 @@ public class LimboActivity extends AppCompatActivity
             return;
         }
         pendingMachineName = machineExtra;
+        pendingAutoStart = getIntent() != null
+                && getIntent().getBooleanExtra(EXTRA_START, false);
 
         setContentView(R.layout.limbo_main);
         setupWidgets();
@@ -1111,7 +1114,7 @@ public class LimboActivity extends AppCompatActivity
     }
 
     private void addDiskMapping(FileType fileType, Spinner spinner,
-                                CheckBox enableCheckBox, MachineProperty dbColName) {
+                                CompoundButton enableCheckBox, MachineProperty dbColName) {
         spinner.setTag(fileType);
 
         diskMapping.put(fileType, new DiskInfo(spinner, enableCheckBox, dbColName));
@@ -2526,6 +2529,18 @@ public class LimboActivity extends AppCompatActivity
         machineLoaded = false;
         syncSlidersFromMachine();
         updateMachineHeader();
+
+        if (pendingAutoStart && !MachineController.getInstance().isRunning()
+                && getMachine() != null
+                && pendingMachineName != null
+                && pendingMachineName.equals(getMachine().getName())) {
+            pendingAutoStart = false;
+            mStart.postDelayed(new Runnable() {
+                public void run() {
+                    mStart.performClick();
+                }
+            }, 350);
+        }
         mMachine.setEnabled(!MachineController.getInstance().isRunning());
     }
 
@@ -3196,7 +3211,7 @@ private void populateFirmware() {
     }
 
     private void showSettings() {
-        Intent i = new Intent(this, LimboSettingsManager.class);
+        Intent i = new Intent(this, AppSettingsActivity.class);
         startActivity(i);
     }
 
@@ -3412,11 +3427,11 @@ private void populateFirmware() {
     }
 
     static class DiskInfo {
-        public CheckBox enableCheckBox;
+        public CompoundButton enableCheckBox;
         public Spinner spinner;
         public MachineProperty colName;
 
-        public DiskInfo(Spinner spinner, CheckBox enableCheckbox, MachineProperty dbColName) {
+        public DiskInfo(Spinner spinner, CompoundButton enableCheckbox, MachineProperty dbColName) {
             this.spinner = spinner;
             this.enableCheckBox = enableCheckbox;
             this.colName = dbColName;

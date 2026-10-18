@@ -159,6 +159,11 @@ public class HomeController implements
             }
 
             @Override
+            public void onStart(MachineGridAdapter.Item item) {
+                openConfig(item.name, true);
+            }
+
+            @Override
             public void onAdd() {
                 promptNewMachine();
             }
@@ -227,7 +232,7 @@ public class HomeController implements
         activity.findViewById(R.id.row_global_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startActivity(new Intent(activity, LimboSettingsManager.class));
+                activity.startActivity(new Intent(activity, AppSettingsActivity.class));
             }
         });
         activity.findViewById(R.id.row_install).setOnClickListener(new View.OnClickListener() {
@@ -407,7 +412,7 @@ public class HomeController implements
                         if (tab == TAB_MACHINES) {
                             subtitle.setText(items.isEmpty()
                                     ? activity.getString(R.string.home_machines_sub)
-                                    : activity.getString(R.string.machine_count, items.size()));
+                                    : activity.getString(R.string.machine_count_hint, items.size()));
                         }
                     }
                 });
@@ -452,8 +457,13 @@ public class HomeController implements
     }
 
     private void openConfig(String machineName) {
+        openConfig(machineName, false);
+    }
+
+    private void openConfig(String machineName, boolean start) {
         Intent intent = new Intent(activity, activity.getClass());
         intent.putExtra(LimboActivity.EXTRA_MACHINE, machineName);
+        intent.putExtra(LimboActivity.EXTRA_START, start);
         activity.startActivity(intent);
     }
 
